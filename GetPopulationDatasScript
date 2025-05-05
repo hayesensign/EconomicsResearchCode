@@ -1,0 +1,181 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+from selenium.webdriver.common.keys import Keys
+import pandas as pd
+from openpyxl import load_workbook
+
+fileReader = pd.read_excel("Econ Paper.xlsx", "Sheet1")
+workbook = load_workbook(filename = "Econ Paper.xlsx")
+sheet = workbook["Sheet1"]
+TalentPoolCountries = []
+PotentialTalentPoolPopulaiton = 0
+
+for w in range(0, 193):
+        TalentPoolCountries = []
+        PotentialTalentPoolPopulaiton = 0
+        
+        driver = webdriver.Chrome()
+        driver.get("https://www.henleyglobal.com/passport-index/compare")
+        button = driver.find_element(By.XPATH, "/html/body/div[9]/div/div/div/div[2]/div/div[2]/button[2]")
+        button.click()
+        time.sleep(2)
+
+        searchElement = driver.find_element(By.XPATH, "/html/body/div[4]/div[1]/div[4]/div/div/div/div[2]/div/div/div/div/div/div/div[1]/div[2]/div/input")
+        currentCountry = fileReader['UN Member State'][w]
+        if (currentCountry == "Guinea Bissau"):
+            searchElement.send_keys("Guinea-Bissau")
+        elif (currentCountry == "Bolivia (Plurinational State of)"):
+            searchElement.send_keys("Bolivia")
+        elif (currentCountry == "Brunei Darussalam"):
+            searchElement.send_keys("Brunei")
+        elif (currentCountry == "Cabo Verde"):
+            searchElement.send_keys("Cape")
+        elif (currentCountry == "Iran (Islamic Republic of)"):
+            searchElement.send_keys("Iran");
+        elif (currentCountry == "Lao People's Democratic Republic"):
+            searchElement.send_keys("Laos")
+        elif (currentCountry == "Micronesia (Federated States of)"):
+            searchElement.send_keys("Micronesia")
+        elif (currentCountry == "Netherlands (Kingdom of the)"):
+            searchElement.send_keys("Netherlands")
+        elif (currentCountry == "New Zealand"):
+            searchElement.send_keys("New")
+        elif (currentCountry == "Papua New Guinea"):
+            searchElement.send_keys("Papua");
+        elif (currentCountry == "Republic of Moldova"):
+            searchElement.send_keys("Moldova")
+        elif (currentCountry == "Russian Federation"):
+            searchElement.send_keys("Russia");
+        elif (currentCountry == "Saint Kitts and Nevis"):
+            searchElement.send_keys("St")
+        elif (currentCountry == "San Marino"):
+            searchElement.send_keys("San");
+        elif (currentCountry == "Sao Tome and Principe"):
+            searchElement.send_keys("Sao");
+        elif (currentCountry == "Sierra Leone"):
+            searchElement.send_keys("Sierra")
+        elif (currentCountry == "Solomon Islands"):
+            searchElement.send_keys("Solomon")
+        elif (currentCountry == "Saudi Arabia"):
+            searchElement.send_keys("Saudi")
+        elif (currentCountry == "South Africa"):
+            searchElement.send_keys("South")
+        elif (currentCountry == "Sri Lanka"):
+            searchElement.send_keys("Sri")
+        elif (currentCountry == "Syrian Arab Republic"):
+            searchElement.send_keys("Syria")
+        elif (currentCountry == "Türkiye"):
+            searchElement.send_keys("Turki")
+        elif (currentCountry == "Trinidad and Tobago"):
+                searchElement.send_keys("Trinidad")
+        elif (currentCountry == "United Arab Emirates"):
+             searchElement.send_keys("United")
+        elif (currentCountry == "United Republic of Tanzania"):
+            searchElement.send_keys("Tanzania")
+        elif (currentCountry == "Venezuela, Bolivarian Republic of"):
+            searchElement.send_keys("Venezuela")
+        elif (currentCountry == "Viet Nam"):
+            searchElement.send_keys("Vietnam")
+        else:
+            searchElement.send_keys(currentCountry)
+        
+        time.sleep(2)
+        searchElement.send_keys(Keys.ENTER)
+        time.sleep(5)
+
+
+
+        for x in range(1, 228):
+            beginningString = "/html/body/div[4]/div[1]/div[4]/div/div/div/div[2]/div[1]/div[2]/ul/li["
+            countryNumberString = str(x)
+            styleElementEndingString = "]/div/span"
+            nameElementEndingString = "]/div/div/span/span"
+            styleELementString = beginningString + countryNumberString + styleElementEndingString
+            nameElementString = beginningString + countryNumberString + nameElementEndingString
+
+            nameElement = driver.find_element(By.XPATH, nameElementString)
+            name = nameElement.text
+            styleElement = driver.find_element(By.XPATH, styleELementString)
+            if (("255" in styleElement.get_attribute("style")) and (name != "American Samoa" and name != "Anguilla" and name != "Aruba" and name != "Bermuda"
+                  and name != "Bonaire St. Eustatius and Saba" and name != "British Virgin Islands" and name != "Cayman Islands" and name != "Cook Islands" and name != "Curacao"
+                  and name != "Falkland Islands" and name != "Faroe Islands" and name != "French Guiana" and name != "French Polynesia" and name != "French West Indies" and name != "Gibraltar"
+                  and name != "Greenland" and name != "Guam" and name != "Hong Kong (SAR China)" and name != "Kosovo" and name != "Macao (SAR China)" and name != "Mayotte" and name != "Montserrat"
+                  and name != "New Caledonia" and name != "Niue" and name != "Northern Mariana Islands" and name != "Palestinian Territory" and name != "Puerto Rico" and name != "Reunion"
+                  and name != "St. Helena" and name != "St. Maarten" and name != "Taiwan (Chinese Taipei)" and name != "Turks and Caicos Islands" and name != "US Virgin Islands" and name != "Vatican City")):
+                if (name == "Bolivia"):
+                    TalentPoolCountries.append("Bolivia (Plurinational State of)")
+                elif (name == "Brunei"):
+                    TalentPoolCountries.append("Brunei Darussalam")
+                elif (name == "Cape Verde Islands"):
+                    TalentPoolCountries.append("Cabo Verde")
+                elif (name == "Comoro Islands"):
+                    TalentPoolCountries.append("Comoros")
+                elif (name == "Congo (Dem. Rep.)"):
+                    TalentPoolCountries.append("Congo")
+                elif (name == "Cote d'Ivoire"):
+                    TalentPoolCountries.append("Côte D'Ivoire")
+                elif (name == "North Korea"):
+                    TalentPoolCountries.append("Democratic People's Repulic of Korea")
+                elif (name == "Congo (Dem. Rep.)"):
+                    TalentPoolCountries.append("Democratic Republic of the Congo")
+                elif (name == "eSwatini"):
+                    TalentPoolCountries.append("Eswatini")
+                elif (name == "The Gambia"):
+                    TalentPoolCountries.append("Gambia (Republic of The)")
+                elif (name == "Guinea-Bissau"):
+                    TalentPoolCountries.append("Guinea Bissau")
+                elif (name == "Iran"):
+                    TalentPoolCountries.append("Iran (Islamic Republic of)")
+                elif (name == "Laos"):
+                    TalentPoolCountries.append("Lao People's Democratic Republic")
+                elif (name == "Micronesia"):
+                    TalentPoolCountries.append("Micronesia (Federated States of)")
+                elif (name == "Netherlands"):
+                    TalentPoolCountries.append("Netherlands (Kingdom of the)")
+                elif (name == "Palau Islands"):
+                    TalentPoolCountries.append("Palau")
+                elif (name == "South Korea"):
+                    TalentPoolCountries.append("Republic of Korea")
+                elif (name == "Moldova"):
+                    TalentPoolCountries.append("Republic of Moldova")
+                elif (name == "St. Kitts and Nevis"):
+                    TalentPoolCountries.append("Saint Kitts and Nevis")
+                elif (name == "St. Lucia"):
+                    TalentPoolCountries.append("Saint Lucia")
+                elif (name == "St. Vincent and the Grenadines"):
+                    TalentPoolCountries.append("Saint Vincent and the Grenadines")
+                elif (name == "Syria"):
+                    TalentPoolCountries.append("Syrian Arab Republic")
+                elif (name == "United Kingdom"):
+                    TalentPoolCountries.append("United Kingdom of Great Britain and Northern Ireland")
+                elif (name == "Tanzania"):
+                    TalentPoolCountries.append("United Republic of Tanzania")
+                elif (name == "United States"):
+                    TalentPoolCountries.append("United States of America")
+                elif (name == "Venezuela"):
+                    TalentPoolCountries.append("Venezuela, Bolivarian Republic of")
+                elif (name == "Vietnam"):
+                    TalentPoolCountries.append("Viet Nam")
+                else:
+                    TalentPoolCountries.append(name)
+                
+        for x in range(0, len(TalentPoolCountries)):
+            for y in range(0, 193):
+                if (TalentPoolCountries[x] == fileReader['UN Member State'][y]):
+                    PotentialTalentPoolPopulaiton += int(fileReader['2022 Population'][y])
+                    break
+                    
+        PotentialTalentPoolPopulaiton += fileReader['2022 Population'][w]
+        PotentialTalentPoolPopulaiton = int(PotentialTalentPoolPopulaiton)
+        sheet["C" + str(w + 2)] = f"{PotentialTalentPoolPopulaiton:,}"
+        workbook.save(filename = "Econ Paper.xlsx")
+        driver.close()
+        
+    
+        
+        
+    
+
+        
+
